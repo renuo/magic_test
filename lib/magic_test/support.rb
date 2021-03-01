@@ -3,7 +3,7 @@ module MagicTest
     def assert_selected_exists
       selected_text = page.evaluate_script("window.selectedText()")
       return if selected_text.blank?
-      filepath, line = caller.select { |s| s.include?("/test/") }.reject { |s| s.include?("helper") }.first.split(':')
+      filepath, line = caller.select { |s| s.include?("/test/") || s.include?("/spec/") }.reject { |s| s.include?("helper") }.first.split(':')
       contents = File.open(filepath).read.lines
       chunks = contents.each_slice(line.to_i - 1 + @test_lines_written).to_a
       indentation = chunks[1].first.match(/^(\s*)/)[0]
